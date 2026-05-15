@@ -1,0 +1,123 @@
+#https://github.com/cprakash2118/DO380v418-15-May-2026
+
+******** Recent Update ************
+https://www.redhat.com/en/services/certifications
+RHCE in OpenShift (Required for RHCA in OpenShift)
+Do280v418 -> 
+DO380v418 -> 
+
+RHCA in OpenShift (any 3)
+DO316/432/430/370 - DO480/229
+DO380v414 -> DO380v418 
+***********************************
+
+POint-01-# Product 
+# Red Hat OpenShift (Product editions)
+1-) Cloud services editions [Based on core]
+ - Red Hat OpenShift Service on AWS    [ROSA; AWS platform]
+ - Microsoft Azure Red Hat OpenShift   [ARO; Azure platform -Cloud/Onprem]
+ - Red Hat OpenShift Dedicated         [AWS/GCP platform]
+ - Red Hat OpenShift on IBM Cloud      [IBM Cloud platform]
+ 
+2-) Self-managed editions [Based on socket]
+ - Red Hat OpenShift Kubernetes Engine      [Basic;RHOKE]       - Container & Virtualization workload
+ - Red Hat OpenShift Container Platform     [Standard; RHOCP]   - Container & Virtualization workload (+Extra feature)
+ - Red Hat OpenShift Virtualization Engine  [Add-Ons; RHOVE]    - Only for Virtualization [kubeVirt] workload. 
+ - Red Hat OpenShift Platform Plus          [Add-Ons; RHOPP]    - Add-ons [ACM/ACS/ODF/Quay/RHOVE/RHOAI]
+ 
+
+POint-02-# Classroom Environment [Consider this as Production setup].
+1-) User details:-
+    - Login to VMs/Servers:-
+	  - student/student [Sudo access]
+	  - root/redhat
+	  
+	- Login to OCP cluster:-
+      - admin/redhatocp       [cluster-admin access ; It's a same like root w.r.t Linux]
+      - developer/developer 	[Basic-user access ]
+      FYI- Both are LDAP account.
+     
+	  - kubeadmin/kubeadmin-password [cluster-admin account; it's 1st token based account]
+	  FYI- Two methods to login to OCP cluster.
+	     - Token based (OAuth based)
+		 - Certificate based (x509)
+         - OAuth is an identity Broker (On behalf of openShift OAuth sync with IdPs)
+		 
+		*************************** AT lab level **************************
+		- from your workstation node.
+		$ ssh lab@utility 
+		$ cd /home/lab/ocp4/auth
+		$ ls 
+		kubeconfig kubeadmin-password 
+		
+		$ cat kubeadmin-password ; echo 
+		jadhkjashdjkas
+		$ cat kubeconfig | grep server 
+		https://api.ocp4.example.com:6443 
+		
+		$ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+		-------------------------------------------------------------------
+		4 components to deploy OCP cluster.
+		1- openShift-install
+		2- pullSecret 
+		3- RHCOS images 
+		4- OpenShift-Client (oc)
+		   - install-config.yaml 
+		   
+		Created manifest 
+		then 
+		Created ignition file 
+		When ignition created along with that "/auth/{kubeconfig,kubeadmin-password}"
+		cat auth/kubeadmin-password ; echo 
+		userName-kubeadmin
+		
+		API url - cat auth/kubeconfig | grep server 
+		https://api.ocp4.example.com:6443 
+		
+		
+		   
+		API URL - https://api.clusterName.BaseDomain:6443
+		
+		3 clusters:-
+		
+		baseDoamin: citi.com 
+		cluster-01: cluster-apac 
+		cluster-02: cluster-emea 
+		cluster-03: cluster-na 
+		
+		API URL 
+		 - https://api.clusterName.baseDomain:6443 
+		 - https://api.cluster-apac.citi.com:6443
+        		
+		Console URL:
+		 - https://appName-nsName.apps.clusterName.baseDomain
+		 - https://console-openShift-console.apps.cluster-apac.citi.com 
+		 
+		 
+		 clusterName - ocp4 
+		 baseDoamin  - example.com 
+		 
+		 API URL - https://api.ocp4.example.com:6443 
+		 Web URL - https://console-openShift-console.apps.ocp4.example.com 
+		***************************************************
+		
+2-) Network/Domain details:-
+         Network Name             Domain Name                IP Range 
+    - classroom Network         example.com                 172.25.252.0/24 
+	- Student Network          lab.example.com              172.25.250.0/24 
+    - Cluster Network          ocp4.example.com             192.168.50.0/24 
+
+3-) VMs/Servers:-
+    workstation.lab.example.com   [Jump server]
+    utility.lab.example.com       [HAproxy,DHCP,Pxe/KickStart/Apache etc]
+    classroom.example.com         [Proxy server - gateway towards internet - to access github.com/redhat.io etc]
+    bastion.lab.example.com       [DNS; Connect Student to Classroom network]
+	master01-03.ocp4.example.com  [Master node]
+	worker01-03.ocp4.example.com  [worker nodes]
+	ceph.ocp4.example.com         [Storage node]
+	git.ocp4.example.com          [Code repo]
+	idm.ocp4.example.com          [LDAP server - 1st one]
+	rhds.ocp4.example.com         [LDAP server - 2nd one]
+	sso.ocp4.example.com          [SingleSignOn server - used by OIDC]
+	
+	
