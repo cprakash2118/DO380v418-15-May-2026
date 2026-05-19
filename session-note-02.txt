@@ -1,0 +1,50 @@
+# Quick Recap:-
+Point-01# Product - Red Hat OpenShift 
+Point-02# Classroom Environment.
+
+OCP cluster [Master/worker nodes]
+As per the LAB(DO380v418) 
+- 3 master, 3 worker nodes 
+- API URL - https://api.ocp4.example.com:6443 
+- Web URL - https://console-openshift-console.apps.ocp4.example.com 
+
+FYI- 
+- ocp4 is the clusterName 
+- example.com is base Domain 
+
+Unit-1# Authentication & Identity Management:-
+- Two authentication methods:-
+  1-) Token based authentication (OAuth)
+  2-) Certificate based authentication (x509)
+  
+- Based on htpasswd and LDAP.
+- LDAP & LDAP group sync. 
+- OIDC (RHSSO)
+- Kubeconfig file (Admin/Auditor)
+
+
+Task-01:- TOken based authentication (via OAuth).
+- OAuth is an identity Broker (OAuth sync with other Identity Provider "IdPs" - htpasswd;LDAP;AD;OIDC etc)
+- Authentication done by IdP (htpasswd/LDAP/AD/etc).
+- Authorization done by OAuth.
+
+LDAP account -> admin/redhatocp ; developer/developer 
+As per DO380, we have two LDAP server.
+1st LDAP - idm.ocp4.example.com 
+2nd LDAP - rhds.ocp4.example.com 
+
+user1-5/redhat ; SecretName=secret-sre ; IdP Name= IdP-htpasswd-Sre-Team
+adding admin/redhat - belongs to secret-sre & IdP-htpasswd-SRE-Team.
+Belongs to sre_group.
+
+user6-10/redhat ; SecretName=secret-devops ; IdP Name= IdP-htpasswd-Devops-Team 
+Belongs to devops_group.
+
+Outcome must be - All users must be able to login to OCP cluster.
+OAuth -> openshift-apiserver (proxy) -> OpenShift-kube-apiserver -> openshift-kube-controller-manager
+
+
+admin/redhatocp - LDAP Account 
+admin/redhat    - HTpasswd Account 
+
+
