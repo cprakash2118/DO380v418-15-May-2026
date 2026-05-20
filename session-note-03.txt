@@ -1,0 +1,68 @@
+Quick Recap (till now):-
+1-# Product - Red Hat OpenShift 
+2-# Classroom environment [6 node OCP cluster ; bastion/utility/ceph/idm/rhds;git]
+3-# Unit-1# Authentication & Identity Management:-
+- Two authentication methods:-
+  1-) Token based authentication (OAuth)
+  2-) Certificate based authentication (x509)
+  
+- Based on htpasswd and LDAP.
+- LDAP & LDAP group sync. 
+- OIDC (RHSSO)
+- Kubeconfig file (Admin/Auditor)
+
+LDAP account -> admin/redhatocp ; developer/developer 
+As per DO380, we have two LDAP server.
+1st LDAP - idm.ocp4.example.com 
+2nd LDAP - rhds.ocp4.example.com 
+
+
+
+****************
+- OAuth config (Multiple IdPs, MFA - On IdP side)
+- LDAP integration 
+- LDAP Group Sync 
+- OIDC (via RHSSO/PingIdentity) - it use JWT.
+- Kubeconfig (Backdoor cluster-admin/auditor entry) 
+****************
+
+Task-01:- (mappingMethod - claim/add)
+user1-5/redhat ; secret Name; IdP Name
+added admin/redhat to the same IdP
+added admin/redhatocp to same IdP (Used same user name and password)
+
+
+Task-02:- 
+Note:
+Option-01- clusteradmin access given to some IdP (belongs to htpasswd Method)
+- Make sure to provide cluster-admin access to htpasswd IdP.
+- user1-5/redhat -> sre_grp (cluster-admin access).
+
+Option-02- kubeadmin/kubeadmin-password 
+- $ ssh lab@utility 
+  $ cd ocp4/auth 
+  $ scp -r kube* student@workstation:~/
+  
+Two LDAP Server:-
+- idm.ocp4.example.com  
+- rhds.ocp4.example.com 
+
+
+Re-configure the LDAP.
+- Secret (It hold the admin credential).
+- configMap (It hold the LDAP certifcate).
+- BaseDN (Who is the authority to do the queries with LDAP and sync with OAuth)
+- LDAP URL 
+- LDAP attributes (Optional).
+
+
+
+IdP Name = IdP-LDAP-idm ; Secret Name =secret-ldap-idm ; CM name = cm-ldap-idm ;
+LDAP URL = ?
+BaseDN = ?
+ 
+ 
+ cprakash@redhat.com 
+ cprakash@hawkstack.com 
+ cprakash@gmail.com 
+ 
