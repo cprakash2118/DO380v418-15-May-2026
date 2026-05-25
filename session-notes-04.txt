@@ -1,0 +1,58 @@
+#Quick Recap:-
+
+Unit-1# Authentication and Identity Management.
+- Authentication part via OAuth (Identity Broker), How OAuth sync with IdPs.
+  - htpasswd (Mapping method - claim/add)
+    Case-01-# same user with multiple IdPs (admin user).
+	  - admin/redhatocp - LDAP account 
+	  - admin/redhat    - htpasswd (modification w.r.t Mapping Method)
+	  - Sequence of IdPs.
+- LDAP integration.
+  - idm.ocp4.example.com   [Follow the standard]
+  - rhds.ocp4.example.com 
+  
+- LDAP Groups Sync & LDAP GroupSync automation via cronjobs 
+- OpenIDConnect (OIDC) - RHSSO 
+- Client Certificate (Creating kubeconfig file again) - Backdoor entry as cluster-admin, auditor as read-only.
+
+
+Classroom Environment (Relate with Prod):-
+- User (student/student, also having sudo access; root/redhat)
+- User (admin/redhatocp ; kubeadmin/kubeadminPassword (utility node - /home/lab/ocp4/auth)
+- 6 nodes cluster (cluster Name - ocp4 ; base domain - example.com)
+  master01-03.ocp4.example.com 
+  worker01-03.ocp4.example.com 
+  
+  git.ocp4.example.com (later used by ArgoCD to sync the applicationSet)
+
+--------------------------------------------------------------------------------------
+Task-01-# 
+ - user1-5/redhat ; secret Name= secret-sre-team ; IdP Name = IdP-htpasswd-SRE-Team 
+ - admin/redhat - to same secret (Later)
+ - Login to all users and verify.
+ - Create group (sre_grp) and add all user1-5 to this group.
+ - Provide cluster-admin access to sre_grp.
+
+Task-02-# 
+ - LDAP's user- admin/redhatocp ; developer/developer - idm.ocp4.example.com
+   
+   Redefine LDAP configuration part.
+   - IdP Name - IdP-LDAP-idm-Team 
+   - BindDN   - What is this ? Why we needed ?  - BindDN is an authority - who will involved with LDAP query via ldapsearch 
+   - BaseDN   - What is this ? Why we needed ?  - BaseDN is the place from where there search start.
+   - LDAP Cert- LDAP certificate (keep it on ConfigMap) 
+   - LDAP password -  Admin password (keep it on secret).
+   - LDAP URL 
+   - Confirm all these details (ldapsearch).
+   
+Task-03-# 
+  - LDAP's user- new-user - rhds.ocp4.example.com
+   
+   Redefine LDAP configuration part.
+   - IdP Name - IdP-LDAP-RHDS-Team 
+   - BindDN   - What is this ? Why we needed ?
+   - BaseDN   - What is this ? Why we needed ?
+   - LDAP Cert- LDAP certificate (keep it on ConfigMap) 
+   - LDAP password -  Admin password (keep it on secret).
+   - LDAP URL 
+   - Confirm all these details (ldapsearch).  
