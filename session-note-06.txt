@@ -1,0 +1,76 @@
+Unit-1#
+- OAuth discussion (enabled multiple IdPs - htpasswd with "mappingMethod")
+- LDAP integration 
+  - idm.ocp4.example.com  
+  - rhds.ocp4.example.com
+  FYI:-
+   1-) LDAP Server (LDAP URL ldaps/ldap)
+   2-) BindDN (Authorized account for LDAP to make queries)
+   3-) BaseDN (Search starts)
+   4-) Secret (bindPassword)
+   5-) ConfigMap (LDAP certificate)
+   6-) ldapsearch [BindDN,LDAP URL, BaseDN]
+- LDAP Group Sync & cronjobs 
+
+- OIDC (via RHSSO)   (JWT point of view)
+- Client Certificate 
+
+****************
+Exam point of view:- EX380v418 
+- LDAP integration (idm.ocp4.example.com) [create htpasswd users and provide cluster-admin access]
+- Client Certificate (Blocker)
+****************
+
+### Client Certificate:-
+- TOken Based AUth (via OAuth)
+- Certificate Based AUth (via x509 Client Certificate)
+
+Cluster Service:-
+1-# OAuth (openshift-authentication) it's operator also running 
+2-# OPenshift-apiserver (openshift-apiserver) -> PROXY server 
+3-# kube-apiserver  (openshift-kube-apiserver) 
+   - kube-controller-manager 
+   - etcd 
+   - kube-scheduler
+4-# OPenshift-apiserver (respond to this from kube-apiserver)
+5-# Pass the kube-apiserver's respond to OAuth.
+
+If "OAuth" cluster service down? HOw to login to OCP cluster and fix it?
+------------
+auth/
+  - kubeconfig 
+  - kubeadmin-password 
+bootstrap.ign 
+master.ign 
+worker.ign 
+metadata.json 
+--------------
+During the OCP installation.
+ - Token based - kubeadmin (via OAuth)
+ - Client Certificate - kubeconfig (via x509 certificate)
+
+########## to install OCP cluster.
+1- openshift-install (Openshift installer)
+2- pullSecret (Credentials to download the required images during OCp installation)
+3- oc (openshift-client)
+4- rhcos images (rootfs;initranfs;kernel)
+5- install-config.yaml (detail about your OCP cluster)
+#########
+
+Step-1# Using openssl create "key and csr files"
+openssl req (man openssl req)
+ - Created key 
+ - Created csr 
+
+Step-2# Create csr.yaml file using above csr file.
+- Create csr.yaml file (oc explain csr|less)
+- requiest: belongs to csr certificate (in base64 encoded value).
+$ oc explain csr |less 
+
+
+Step-3# Create crt file from apprved csr (oc get csr)
+     (oc get csr csrname -o jsonpath='{.status.certificate}' | base64 -d ) > mycrt.crt  
+
+
+
+

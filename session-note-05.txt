@@ -1,0 +1,81 @@
+--------------------------------------------------------------------------------------
+Task-01-# 
+ - user1-5/redhat ; secret Name= secret-sre-team ; IdP Name = IdP-htpasswd-SRE-Team 
+ - admin/redhat - to same secret (Later)
+ - Login to all users and verify.
+ - Create group (sre_grp) and add all user1-5 to this group.
+ - Provide cluster-admin access to sre_grp.
+
+Task-02-# 
+ - LDAP's user- admin/redhatocp ; developer/developer - idm.ocp4.example.com
+   
+   Redefine LDAP configuration part.
+   - IdP Name - IdP-LDAP-idm-Team 
+   - BindDN   - What is this ? Why we needed ?  - BindDN is an authority - who will involved with LDAP query via ldapsearch 
+   - BaseDN   - What is this ? Why we needed ?  - BaseDN is the place from where there search start.
+   - LDAP Cert- LDAP certificate (keep it on ConfigMap) 
+   - LDAP password -  Admin password (keep it on secret).
+   - LDAP URL 
+   - Confirm all these details (ldapsearch).
+   
+Task-03-# 
+  - LDAP's user- new-user - rhds.ocp4.example.com
+   
+   Redefine LDAP configuration part.
+   - IdP Name - IdP-LDAP-RHDS-Team 
+   - BindDN   - What is this ? Why we needed ?
+   - BaseDN   - What is this ? Why we needed ?
+   - LDAP Cert- LDAP certificate (keep it on ConfigMap) 
+   - LDAP password -  Admin password (keep it on secret).
+   - LDAP URL 
+   - Confirm all these details (ldapsearch).  
+
+#####################################
+Quick Recap:-
+- htpasswd IdP enabled - (admin/redhat)
+- admin/redhatocp - LDAP account (idm.ocp4.example.com)
+FYI
+- Enable single user with multiple IdPs.
+- Why this case?
+  If LDAP not working in that case htpasswd (local DB as secret w.r.t openshift-config) will work.
+- LDAP block must be on top and below htpasswd (with MappingMethod = add).
+
+- idm.ocp4.example.com (1st LDAP). 
+  - BindDN  - Who is the authority to search user.
+            - 'uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com'
+  - BaseDN - Where the start start 
+           - 'cn=users,cn=accounts,dc=ocp4,dc=example,dc=com'
+           - 'cn=accounts,dc=ocp4,dc=example,dc=com'
+           - 'dc=ocp4,dc=example,dc=com'
+  - bindPassword (LDAP's password)
+  - ConfigMap (LDAP's certificate).
+  - LDAP URL - ldaps://
+             - ldap://
+---------------------------
+2nd LDAP 
+- LDAP Server rhds.ocp4.example.com 
+- BindDN - cn=Directory Manager
+- Bind password - "redhatocp"
+- LDAP URL - ldaps://rhds.ocp4.example.com/dc=example,dc=com?uid
+- Name  - IdP-LDAP-RHDS
+- LDAP Certificate - Location given.
+
+
+LDAP URL - ldaps://rhds.ocp4.example.com/dc=example,dc=com?uid
+BindDN   - cn=Directory Manager
+Name     - IdP-LDAP-RHDS
+
+
+
+LDAP authentication -> Is this username/password valid ?
+
+LDAP Group Sync -> "Which LDAP groups should exist inside OpenShift cluster, and which users belongs to those groups?
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
