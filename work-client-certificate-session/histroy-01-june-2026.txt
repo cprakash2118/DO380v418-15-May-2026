@@ -1,0 +1,95 @@
+    1  ssh lab@utility 
+    2  mkdir work 
+    3  cd work/
+    4  pwd
+    5  ll
+    6  oc get groups 
+    7  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+    8  oc whoami 
+    9  oc get groups
+   10  oc adm groups new acme-corp 
+   11  oc get groups
+   12  oc adm policy add-cluster-role-to-group cluster-reader acme-corp
+   13  oc get groups
+   14  man openssl req 
+   15  #openssl req 
+   16  man openssl req 
+   17  #openssl req -newkey 
+   18  man openssl req 
+   19  #openssl req -newkey rsa:4096
+   20  man openssl req 
+   21  #openssl req -newkey rsa:4096 -noenc 
+   22  man openssl req 
+   23  #openssl req -newkey rsa:4096 -noenc -noenc do380.key 
+   24  oc get groups
+   25  man openssl req 
+   26  #openssl req -newkey rsa:4096 -noenc -noenc do380.key -subj "/Oacme-crop/CN=acme-auditor" 
+   27  man openssl req 
+   28  #openssl req -newkey rsa:4096 -noenc -noenc do380.key -subj "/Oacme-crop/CN=acme-auditor" -out acme-auditor-file.csr 
+   29  openssl req -newkey rsa:4096 -noenc -noenc do380.key -subj "/Oacme-crop/CN=acme-auditor" -out acme-auditor-file.csr 
+   30  openssl req -newkey rsa:4096 -noenc -keyout do380.key -subj "/Oacme-crop/CN=acme-auditor" -out acme-auditor-file.csr 
+   31  ll
+   32  rm -rf * 
+   33  openssl req -newkey rsa:4096 -noenc -keyout do380.key -subj "/O=acme-crop/CN=acme-auditor" -out acme-auditor-file.csr 
+   34  ls -l
+   35  vim acme-auditor-file.csr 
+   36  base64 -w0 acme-auditor-file.csr ; echo 
+   37  touch acme-auditor-file-csr.yaml 
+   38  ll
+   39  file * 
+   40  oc explain csr |less
+   41  vim acme-auditor-file-csr.yaml 
+   42  oc explain csr |less
+   43  vim acme-auditor-file-csr.yaml 
+   44  ll
+   45  #openssl req -newkey rsa:4096 -noenc -keyout do380.key -subj "/O=acme-crop/CN=acme-auditor" -out acme-auditor-file.csr 
+   46  vim acme-auditor-file-csr.yaml 
+   47  oc explain csr.spec |less
+   48  vim acme-auditor-file-csr.yaml 
+   49  bc
+   50  vim acme-auditor-file-csr.yaml 
+   51  oc explain csr.spec |less
+   52  vim acme-auditor-file-csr.yaml 
+   53  oc explain csr.spec.signerName |less
+   54  vim acme-auditor-file-csr.yaml 
+   55  oc explain csr.spec |less
+   56  oc explain csr.spec.usages |less
+   57  vim acme-auditor-file-csr.yaml 
+   58  oc explain csr.spec |less
+   59  vim acme-auditor-file-csr.yaml 
+   60  base64 -w0 acme-auditor-file.csr ; echo 
+   61  (base64 -w0 acme-auditor-file.csr ; echo )>> acme-auditor-file.csr
+   62  cat acme-auditor-file.csr >> acme-auditor-file-csr.yaml
+   63  vim acme-auditor-file-csr.yaml 
+   64  vim acme-auditor-file.csr
+   65  ll
+   66  vim acme-auditor-file-csr.yaml 
+   67  oc get csr
+   68  ll
+   69  cp -rpv acme-auditor-file-csr.yaml /tmp/
+   70  vim acme-auditor-file-csr.yaml 
+   71  cat acme-auditor-file.csr
+   72  #(base64 -w0 acme-auditor-file.csr ; echo )>> acme-auditor-file-csr.yaml
+   73  base64 -w0 acme-auditor-file.csr ; echo
+   74  (base64 -w0 acme-auditor-file.csr ; echo )>> acme-auditor-file-csr.yaml
+   75  vim acme-auditor-file-csr.yaml 
+   76  ll
+   77  oc get csr 
+   78  oc create -f acme-auditor-file-csr.yaml
+   79  oc get csr 
+   80  oc adm certificate approve acme-auditor-file-csr
+   81  oc get csr 
+   82  oc get csr acme-auditor-file-csr -o yaml 
+   83  oc get csr acme-auditor-file-csr -o jsonpath='{.status.certificate}'
+   84  oc get csr acme-auditor-file-csr -o jsonpath='{.status.certificate}' | base64 -d ; echo 
+   85  ll
+   86  oc get csr acme-auditor-file-csr -o jsonpath='{.status.certificate}' | base64 -d ; echo 
+   87  (oc get csr acme-auditor-file-csr -o jsonpath='{.status.certificate}' | base64 -d ; echo ) > acme-cert-sign-req.crt
+   88  ll
+   89  vim ll
+   90  ll
+   91  oc get csr 
+   92  oc get csr acme-auditor-file-csr -o yaml 
+   93  oc edit csr acme-auditor-file-csr
+   94  ll
+   95  history > histroy-01-june-2026.txt
