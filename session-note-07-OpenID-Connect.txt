@@ -1,0 +1,80 @@
+-Unit-1#
+- OAuth 
+- LDAP ingetration  (EX380v418)
+- LDAP Group sync (with cronjobs - automation)
+- Client Certificate [auditor/backdoor]
+- OpenIDConnect (OIDC).
+  - RHSSO 
+
+- Client Certificate [auditor/backdoor].
+  1st- 
+   - file.key 
+   - file.csr
+   - file-csr.yaml (oc explain csr |less)
+     spec:
+       expirationTime:
+       singerName:
+       request:
+       uasges:
+          client auth 
+     - (cat file-csr.yaml| base64 -w0 )>> file-csr.yaml
+   - oc apply -f file-csr.yaml 
+   - Then approved by admin (cluster-admin)
+   - gather the certificate (from oc get csr file-csr -o yaml )
+-  file-crt.crt 
+- Main files [file.key & file-crt.crt]
+- ocp-apiserver.crt
+- Create kubeconfig file (my-kubeconfig-file) using oc config [CLient Certificate]
+   
+   $ oc config  
+       set-cluster     -> Define the OpenShift cluster.
+       set-credentials  -> Define the user.
+       set-context     -> jons both 
+	   use-context     -> Activates this.
+	 
+-----------------------------------------------------
+- OpenIDConnect (OIDC).
+  - RHSSO (sso.ocp4.example.com - https://sso.ocp4.example.com:8080)
+1-# Configure Red Hat SSO as an OIDC identity provider for OpenShift.
+    OpenShift:-
+       - Auth (OAuthV2.x) - OIDC 	
+2-# Openshift automatically:-
+   - Create users based on information in OIDC token.
+   - Create groups (grp1,grp2,gitopsadm,etc)and put users into them.
+   - use those groups for RBAC (edit. view, roles ).
+   
+   FYI
+   - OIDC having it's own database (users, groups).
+   - SO everything truns around "OIDC tokens", claims and Groups claims.
+   
+
+What is OICD ?
+- OpenID Connect (OIDC) -> Identity layer built on top of OAuth2.
+- User authentication to an IdP (RedHat SSO, Keyclock etc).
+- IdP issues a JWT ID token describing who the user is, and where the user/claim belongs.
+- Application (Consider k8s distributor like openshift) verify and "trust that token" instead of asking for password.
+
+JWT structure?
+ - JWT has three parts:-
+   1-# Header 
+       - Token type and signing algorithm.
+	   - Example:-
+	      JSON -> {"alg":"RS256", "typ":"JWT"}
+  
+  2-# Payload ( claims)
+      - key/value information about user.
+      - Example:
+         JSON/YAML 
+        {
+		 "sub": "a123-uuid",
+		 "preferred_username: "john",
+		 "email": "john@example.com",
+		 "name": "John Xyz",
+		 "groups": ["sre_grp", "devops_grp"]
+		 }
+		 
+  3-# Signature   
+      - Cryptographic signature using IdP's private key.
+	  - OPenshift uses IdP's public key/ CA to verify it wasn't tampered with anything.
+	  
+### HOw OIDC in Openshift works (backend flow).
